@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS2 攻略站 | CS2 Guide Hub</title>
+<style>
+  :root{
+    --bg:#0e1116; --bg2:#161b24; --card:#1c2330; --border:#2a3446;
+    --text:#e8ecf3; --muted:#8b97ab; --accent:#f5a623; --accent2:#4da3ff;
+    --green:#3ecf8e; --red:#ff5c5c;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65}
+  a{color:var(--accent2);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  header{position:sticky;top:0;z-index:10;background:rgba(14,17,22,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+  .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:14px 20px;flex-wrap:wrap}
+  .logo{font-size:1.15rem;font-weight:800;letter-spacing:.5px}
+  .logo span{color:var(--accent)}
+  .nav-links{display:flex;gap:16px;flex-wrap:wrap;margin-left:auto}
+  .nav-links a{color:var(--muted);font-size:.92rem}
+  .nav-links a:hover{color:var(--text);text-decoration:none}
+  .lang-btn{background:var(--accent);color:#111;border:none;border-radius:6px;padding:6px 14px;font-weight:700;cursor:pointer;font-size:.88rem}
+  .lang-btn:hover{filter:brightness(1.1)}
+
+  .hero{max-width:1100px;margin:0 auto;padding:64px 20px 48px;text-align:center}
+  .hero h1{font-size:2.4rem;font-weight:900;margin-bottom:12px}
+  .hero h1 em{color:var(--accent);font-style:normal}
+  .hero p{color:var(--muted);max-width:640px;margin:0 auto;font-size:1.05rem}
+  .badges{display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+  .badge{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:6px 16px;font-size:.85rem;color:var(--muted)}
+  .badge b{color:var(--text)}
+
+  section{max-width:1100px;margin:0 auto;padding:40px 20px}
+  h2{font-size:1.6rem;margin-bottom:6px}
+  h2::before{content:"▍";color:var(--accent)}
+  .sub{color:var(--muted);margin-bottom:24px;font-size:.95rem}
+
+  .grid{display:grid;gap:16px}
+  .grid.maps{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+  .card h3{font-size:1.08rem;margin-bottom:8px}
+  .card h3 .tag{font-size:.72rem;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:2px 7px;margin-left:8px;color:var(--accent);vertical-align:middle;font-weight:600}
+  .card p{font-size:.9rem;color:var(--muted)}
+
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:.92rem}
+  th{background:var(--bg2);text-align:left;padding:11px 14px;color:var(--accent);font-size:.85rem;letter-spacing:.4px}
+  td{padding:10px 14px;border-top:1px solid var(--border)}
+  tr:hover td{background:rgba(255,255,255,.025)}
+  .money{color:var(--green);font-weight:600}
+  .reward{color:var(--accent2)}
+  .table-wrap{overflow-x:auto;border-radius:12px}
+
+  .eco-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:20px}
+  .eco-cards .card h3{color:var(--accent)}
+  .eco-cards .card li{font-size:.88rem;color:var(--muted);margin-left:18px;margin-top:5px}
+
+  .tips{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  .tips .card h3{display:flex;align-items:center;gap:8px}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#111;font-size:.85rem;font-weight:800;flex-shrink:0}
+
+  footer{border-top:1px solid var(--border);margin-top:40px}
+  .foot{max-width:1100px;margin:0 auto;padding:28px 20px;color:var(--muted);font-size:.85rem}
+  .foot p{margin-bottom:6px}
+
+  [data-en]{display:none}
+  html.en [data-zh]{display:none}
+  html.en [data-en]{display:revert}
+  html.en span[data-en],html.en em[data-en],html.en b[data-en],html.en a[data-en]{display:inline}
+
+  .grid.maps .card{cursor:pointer;transition:border-color .15s,transform .15s}
+  .grid.maps .card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .card .more{margin-top:10px;font-size:.8rem;color:var(--accent)}
+
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:50;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 16px}
+  .overlay.open{display:flex}
+  .modal{background:var(--bg2);border:1px solid var(--border);border-radius:14px;max-width:820px;width:100%;padding:28px;position:relative}
+  .modal h3{font-size:1.5rem;margin-bottom:4px}
+  .modal .m-sub{color:var(--muted);font-size:.9rem;margin-bottom:20px}
+  .modal .close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer}
+  .modal .close:hover{color:var(--text)}
+  .m-block{margin-bottom:18px}
+  .m-block h4{color:var(--accent);font-size:1rem;margin-bottom:8px}
+  .m-block li{margin-left:20px;margin-top:6px;font-size:.92rem;color:var(--text)}
+  .m-block li b{color:var(--accent2)}
+  .m-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:640px){.m-cols{grid-template-columns:1fr}}
+  .side-t h4{color:var(--accent)}
+  .side-ct h4{color:var(--accent2)}
+
+  .cross-code{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-family:Consolas,monospace;font-size:.82rem;color:var(--accent);cursor:pointer;white-space:nowrap}
+  .cross-code:hover{border-color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">CS2 <span data-zh>攻略站</span><span data-en>Guide Hub</span></div>
+    <nav class="nav-links">
+      <a href="#maps"><span data-zh>地图池</span><span data-en>Map Pool</span></a>
+      <a href="#economy"><span data-zh>经济体系</span><span data-en>Economy</span></a>
+      <a href="#weapons"><span data-zh>武器数据</span><span data-en>Weapons</span></a>
+      <a href="#crosshair"><span data-zh>准星设置</span><span data-en>Crosshair</span></a>
+      <a href="#tips"><span data-zh>实用技巧</span><span data-en>Pro Tips</span></a>
+    </nav>
+    <button class="lang-btn" onclick="toggleLang()"><span data-zh>EN</span><span data-en>中文</span></button>
+  </div>
+</header>
+
+<div class="hero">
+  <h1><span data-zh>制霸 <em>Counter-Strike 2</em></span><span data-en>Master <em>Counter-Strike 2</em></span></h1>
+  <p data-zh>从地图点位到经济决策的一站式攻略。基于 2026 年当前版本整理，助你从新手爬向 Premier 高分段。</p>
+  <p data-en>Your one-stop guide from map knowledge to economy calls. Updated for the current 2026 season — climb from beginner to high-rank Premier.</p>
+  <div class="badges">
+    <div class="badge"><span data-zh>Steam 在线峰值</span><span data-en>Steam peak</span> <b>1,862,531</b></div>
+    <div class="badge"><span data-zh>当前地图池</span><span data-en>Active Duty maps</span> <b>7</b></div>
+    <div class="badge"><span data-zh>数据更新</span><span data-en>Updated</span> <b>2026-08</b></div>
+  </div>
+</div>
+
+<section id="maps">
+  <h2><span data-zh>当前竞技地图池</span><span data-en>Active Duty Map Pool</span></h2>
+  <p class="sub" data-zh>2026 年 1 月 22 日起，Anubis 替换 Train 进入 Premier 第四赛季地图池。</p>
+  <p class="sub" data-en>Since Jan 22, 2026, Anubis replaced Train in the Active Duty pool for Premier Season Four.</p>
+  <div class="grid maps">
+    <div class="card" onclick="openMap('dust2')"><h3>Dust2 <span class="tag" data-zh>新手友好</span><span class="tag" data-en>Beginner</span></h3>
+      <p data-zh>最经典的三通道布局。练好中门对枪和 A 长烟闪，是入门首选。</p>
+      <p data-en>The classic three-lane layout. Learn mid control and A-long utility — the best map to start on.</p>
+      <p class="more"><span data-zh>点击查看详细攻略 →</span><span data-en>Open full guide →</span></p></div>
+    <div class="card" onclick="openMap('mirage')"><h3>Mirage <span class="tag" data-zh>热门</span><span class="tag" data-en>Popular</span></h3>
+      <p data-zh>路人局出场率最高。中路控制决定节奏，记熟窗口烟和 A 点爆弹道具。</p>
+      <p data-en>Most-picked in matchmaking. Mid control dictates tempo; memorize window smoke and A execute utility.</p>
+      <p class="more"><span data-zh>点击查看详细攻略 →</span><span data-en>Open full guide →</span></p></div>
+    <div class="card" onclick="openMap('inferno')"><h3>Inferno <span class="tag" data-zh>道具密集</span><span class="tag" data-en>Utility-heavy</span></h3>
+      <p data-zh>狭窄通道多，火与烟的博弈。香蕉道控制是每回合的核心战场。</p>
+      <p data-en>Tight chokepoints, molly-and-smoke battles. Banana control is the core fight every round.</p>
+      <p class="more"><span data-zh>点击查看详细攻略 →</span><span data-en>Open full guide →</span></p></div>
+    <div class="card" onclick="openMap('nuke')"><h3>Nuke <span class="tag" data-zh>CT 强势</span><span class="tag" data-en>CT-sided</span></h3>
+      <p data-zh>垂直双层结构，声音信息极其重要。适合喜欢默契配合的队伍。</p>
+      <p data-en>Vertical two-level layout where sound cues matter most. Rewards coordinated teams.</p>
+      <p class="more"><span data-zh>点击查看详细攻略 →</span><span data-en>Open full guide →</span></p></div>
+    <div class="card" onclick="openMap('ancient')"><h3>Ancient <span class="tag" data-zh>三通道</span><span class="tag" data-en>Three-lane</span></h3>
+      <p data-zh>类似 Dust2/Mirage 的经典结构，中路蛋仓争夺是关键。</p>
+      <p data-en>Classic structure like Dust2/Mirage; the mid "donut" fight is pivotal.</p>
+      <p class="more"><span data-zh>点击查看详细攻略 →</span><span data-en>Open full guide →</span></p></div>
+    <div class="card" onclick="openMap('anubis')"><h3>Anubis <span class="tag" data-zh>新晋</span><span class="tag" data-en>New</span></h3>
+      <p data-zh>地图池中唯一社区出身的地图，水道与连接通道多，转点速度快。</p>
+      <p data-en>The only community-made map in the pool. Many connectors and water routes make fast rotates possible.</p>
+      <p class="more"><span data-zh>点击查看详细攻略 →</span><span data-en>Open full guide →</span></p></div>
+    <div class="card" onclick="openMap('vertigo')"><h3>Vertigo <span class="tag" data-zh>高空作战</span><span class="tag" data-en>High-rise</span></h3>
+      <p data-zh>摩天楼工地图，B 点近身冲突多，适合喜欢快节奏对抗的玩家。</p>
+      <p data-en>Skyscraper construction site; close-range B fights suit aggressive players.</p>
+      <p class="more"><span data-zh>点击查看详细攻略 →</span><span data-en>Open full guide →</span></p></div>
+  </div>
+</section>
+
+<section id="economy">
+  <h2><span data-zh>经济体系</span><span data-en>Economy System</span></h2>
+  <p class="sub" data-zh>经济决策和枪法同样重要。个人存款上限 $16,000，超出部分不保留。</p>
+  <p class="sub" data-en>Money management matters as much as aim. The per-player cap is $16,000 — anything above is lost.</p>
+
+  <div class="table-wrap">
+  <table>
+    <tr><th><span data-zh>回合结果</span><span data-en>Round outcome</span></th><th><span data-zh>奖励</span><span data-en>Reward</span></th></tr>
+    <tr><td><span data-zh>歼灭获胜</span><span data-en>Win by elimination</span></td><td class="money">$3,250</td></tr>
+    <tr><td><span data-zh>炸弹爆炸获胜（T）</span><span data-en>Win by bomb detonation (T)</span></td><td class="money">$3,500</td></tr>
+    <tr><td><span data-zh>拆弹获胜（CT）</span><span data-en>Win by defuse (CT)</span></td><td class="money">$3,500</td></tr>
+    <tr><td><span data-zh>首败</span><span data-en>1st loss</span></td><td class="money">$1,400</td></tr>
+    <tr><td><span data-zh>连败奖励递增（每场 +$500）</span><span data-en>Loss bonus step (+$500 per loss)</span></td><td class="money"><span data-zh>最高 $3,400</span><span data-en>up to $3,400</span></td></tr>
+    <tr><td><span data-zh>下包（即使输掉回合）</span><span data-en>Bomb plant (even if round lost)</span></td><td class="money">+$800</td></tr>
+  </table>
+  </div>
+
+  <div class="eco-cards">
+    <div class="card">
+      <h3 data-zh>💰 起手局 Full Buy</h3><h3 data-en>💰 Full Buy</h3>
+      <ul>
+        <li data-zh>步枪 + 全甲 + 全套道具，约 $4,700–5,500</li><li data-en>Rifle + full armor + full utility, ~$4,700–5,500</li>
+        <li data-zh>确保全队一起起，缺人起枪等于半残阵容</li><li data-en>Buy as a team — a half-bought lineup wastes money</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 data-zh>🪙 环保局 Eco</h3><h3 data-en>🪙 Eco Round</h3>
+      <ul>
+        <li data-zh>手枪或空手过渡，把钱攒到下回合起枪</li><li data-en>Pistols or nothing — stack cash for next round's full buy</li>
+        <li data-zh>目标是偷枪和下包 +$800，而不是赢下回合</li><li data-en>Aim for weapon steals and the +$800 plant, not the round win</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 data-zh>⚡ 强起局 Force Buy</h3><h3 data-en>⚡ Force Buy</h3>
+      <ul>
+        <li data-zh>半甲 + 强力手枪/冲锋枪，赌对面起枪局失误</li><li data-en>Half armor + strong pistols/SMGs, gambling on upset</li>
+        <li data-zh>连败奖励高时（$2,900+）性价比最高</li><li data-en>Best value when loss bonus is high ($2,900+)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="weapons">
+  <h2><span data-zh>武器价格与击杀奖励</span><span data-en>Weapon Prices &amp; Kill Rewards</span></h2>
+  <p class="sub" data-zh>越强的武器击杀奖励越低——AWP 每杀只有 $100，冲锋枪却有 $600，这是选枪时的经济账。</p>
+  <p class="sub" data-en>Stronger guns pay less per kill — the AWP earns just $100 while SMGs earn $600. Factor this into your buys.</p>
+  <div class="table-wrap">
+  <table>
+    <tr><th><span data-zh>武器</span><span data-en>Weapon</span></th><th><span data-zh>价格</span><span data-en>Price</span></th><th><span data-zh>击杀奖励</span><span data-en>Kill reward</span></th><th><span data-zh>说明</span><span data-en>Notes</span></th></tr>
+    <tr><td>AK-47 (T)</td><td class="money">$2,700</td><td class="reward">$300</td><td><span data-zh>一枪爆头，T 方核心步枪</span><span data-en>One-tap headshots; the T-side staple</span></td></tr>
+    <tr><td>M4A4 (CT)</td><td class="money">$3,000</td><td class="reward">$300</td><td><span data-zh>30 发弹匣，容错更高</span><span data-en>30-round mag, more forgiving sprays</span></td></tr>
+    <tr><td>M4A1-S (CT)</td><td class="money">$2,900</td><td class="reward">$300</td><td><span data-zh>消音精准，弹匣仅 20 发</span><span data-en>Silenced and accurate, but only 20 rounds</span></td></tr>
+    <tr><td>AWP</td><td class="money">$4,750</td><td class="reward">$100</td><td><span data-zh>一枪致命，但经济压力大</span><span data-en>One-shot kill, heavy economic commitment</span></td></tr>
+    <tr><td><span data-zh>冲锋枪（MP9/MAC-10 等）</span><span data-en>SMGs (MP9/MAC-10 etc.)</span></td><td class="money">$1,050–1,400</td><td class="reward">$600</td><td><span data-zh>反环保局利器，赚钱快</span><span data-en>Anti-eco workhorses, fast money</span></td></tr>
+  </table>
+  </div>
+  <div class="table-wrap" style="margin-top:16px">
+  <table>
+    <tr><th><span data-zh>投掷物</span><span data-en>Grenade</span></th><th><span data-zh>价格</span><span data-en>Price</span></th><th><span data-zh>用途</span><span data-en>Use</span></th></tr>
+    <tr><td><span data-zh>烟雾弹</span><span data-en>Smoke</span></td><td class="money">$300</td><td><span data-zh>封锁视野、掩护转点（CS2 体积烟可被子弹/手雷打穿孔）</span><span data-en>Block sightlines; CS2 volumetric smokes can be pierced by bullets/HEs</span></td></tr>
+    <tr><td><span data-zh>闪光弹</span><span data-en>Flashbang</span></td><td class="money">$200</td><td><span data-zh>进点前必扔，学几个反弹闪点位</span><span data-en>Throw before entry; learn a few pop-flash lineups</span></td></tr>
+    <tr><td><span data-zh>高爆手雷</span><span data-en>HE Grenade</span></td><td class="money">$300</td><td><span data-zh>补伤害、清残血，击杀奖 $300</span><span data-en>Chip damage and cleanup; $300 kill reward</span></td></tr>
+    <tr><td><span data-zh>燃烧瓶（T）/ 燃烧弹（CT）</span><span data-en>Molotov (T) / Incendiary (CT)</span></td><td class="money">$400 / $500</td><td><span data-zh>延缓 rush、逼人出烟出角</span><span data-en>Stall rushes, flush players from cover</span></td></tr>
+    <tr><td><span data-zh>诱饵弹</span><span data-en>Decoy</span></td><td class="money">$50</td><td><span data-zh>假枪声骗转点，最便宜的心理战</span><span data-en>Fake gunfire to bait rotations — cheapest mind game</span></td></tr>
+  </table>
+  </div>
+</section>
+
+<section id="crosshair">
+  <h2><span data-zh>准星设置</span><span data-en>Crosshair Settings</span></h2>
+  <p class="sub" data-zh>好准星的标准：小、静态、颜色显眼。在 设置 → 游戏 → 准星 → "分享或导入" 中粘贴代码即可一键使用。</p>
+  <p class="sub" data-en>A good crosshair is small, static, and high-contrast. Import any code via Settings → Game → Crosshair → "Share or Import".</p>
+
+  <div class="table-wrap">
+  <table>
+    <tr><th><span data-zh>参数</span><span data-en>Parameter</span></th><th><span data-zh>作用</span><span data-en>What it does</span></th><th><span data-zh>建议值</span><span data-en>Recommended</span></th></tr>
+    <tr><td><span data-zh>样式 (Style)</span><span data-en>Style</span></td><td><span data-zh>是否随移动/射击扩散</span><span data-en>Whether it expands when moving/shooting</span></td><td><span data-zh>经典静态（4）——不晃眼，利于预瞄</span><span data-en>Classic Static (4) — steady, best for pre-aiming</span></td></tr>
+    <tr><td><span data-zh>大小 (Size)</span><span data-en>Size</span></td><td><span data-zh>十字线长度</span><span data-en>Line length</span></td><td>1 – 3</td></tr>
+    <tr><td><span data-zh>粗细 (Thickness)</span><span data-en>Thickness</span></td><td><span data-zh>线条宽度</span><span data-en>Line width</span></td><td>0.5 – 1</td></tr>
+    <tr><td><span data-zh>空隙 (Gap)</span><span data-en>Gap</span></td><td><span data-zh>中心空隙大小，负值更紧凑</span><span data-en>Center gap; negative = tighter</span></td><td>-3 – 0</td></tr>
+    <tr><td><span data-zh>中心点 (Dot)</span><span data-en>Center dot</span></td><td><span data-zh>中央加一个点</span><span data-en>Adds a middle dot</span></td><td><span data-zh>可选；开点则调小空隙避免遮挡</span><span data-en>Optional; if on, shrink the gap</span></td></tr>
+    <tr><td><span data-zh>颜色 (Color)</span><span data-en>Color</span></td><td><span data-zh>准星颜色</span><span data-en>Crosshair color</span></td><td><span data-zh>青色/绿色——任何背景都显眼</span><span data-en>Cyan/green — visible on any background</span></td></tr>
+    <tr><td><span data-zh>透明度 (Alpha)</span><span data-en>Alpha</span></td><td><span data-zh>不透明度</span><span data-en>Opacity</span></td><td>200 – 255</td></tr>
+    <tr><td><span data-zh>轮廓 (Outline)</span><span data-en>Outline</span></td><td><span data-zh>黑色描边防止跟背景融合</span><span data-en>Black border to avoid blending in</span></td><td><span data-zh>开，0.5</span><span data-en>On, 0.5</span></td></tr>
+  </table>
+  </div>
+
+  <p class="sub" style="margin-top:24px;margin-bottom:12px"><b data-zh>职业选手准星代码（2026）——点击复制</b><b data-en>Pro crosshair codes (2026) — click to copy</b></p>
+  <div class="table-wrap">
+  <table>
+    <tr><th><span data-zh>选手</span><span data-en>Player</span></th><th><span data-zh>战队</span><span data-en>Team</span></th><th><span data-zh>风格</span><span data-en>Style</span></th><th><span data-zh>代码</span><span data-en>Code</span></th></tr>
+    <tr><td>donk</td><td>Team Spirit</td><td><span data-zh>激进突破手最爱，当前最火</span><span data-en>Aggressive entry favorite, most popular now</span></td><td><code class="cross-code" onclick="copyCode(this)">CSGO-HRUtd-7NxSn-DxZ6w-M4OPW-wjA6Q</code></td></tr>
+    <tr><td>ZywOo</td><td>Vitality</td><td><span data-zh>均衡型，新手友好</span><span data-en>Balanced, beginner-friendly</span></td><td><code class="cross-code" onclick="copyCode(this)">CSGO-Qzpx5-BRLw8-xFPCS-hTns4-GHDhP</code></td></tr>
+    <tr><td>m0NESY</td><td>G2</td><td><span data-zh>狙击手向，小巧精准</span><span data-en>AWPer-oriented, small and precise</span></td><td><code class="cross-code" onclick="copyCode(this)">CSGO-hzrMn-jXu8b-R7VH4-hQ9aa-OnMHA</code></td></tr>
+    <tr><td>NiKo</td><td>G2</td><td><span data-zh>爆头机器的极简准星</span><span data-en>The headshot machine's minimal setup</span></td><td><code class="cross-code" onclick="copyCode(this)">CSGO-Kt7BO-irudC-fuRod-y5fjA-fuzQN</code></td></tr>
+    <tr><td>s1mple</td><td>NAVI</td><td><span data-zh>传奇狙神，均衡易跟枪</span><span data-en>The legend's balanced, easy-tracking cross</span></td><td><code class="cross-code" onclick="copyCode(this)">CSGO-OCskf-qjunY-FE6T6-rsTR9-7SVvD</code></td></tr>
+  </table>
+  </div>
+  <p class="sub" style="margin-top:12px" data-zh>提示：代码可能随选手调整而过期，导入失败时可到 totalcsgo.com/crosshairs 查最新版本。</p>
+  <p class="sub" style="margin-top:12px" data-en>Note: codes may change as players tweak settings; check totalcsgo.com/crosshairs for the latest versions.</p>
+</section>
+
+<section id="tips">
+  <h2><span data-zh>实用技巧</span><span data-en>Pro Tips</span></h2>
+  <p class="sub" data-zh>枪法只是基础，信息、道具和经济意识才拉开分段差距。</p>
+  <p class="sub" data-en>Aim is the baseline — information, utility, and economy sense separate the ranks.</p>
+  <div class="tips">
+    <div class="card"><h3><span class="num">1</span><span data-zh>急停射击</span><span data-en>Counter-strafe</span></h3>
+      <p data-zh>移动中开枪毫无准度。松开方向键或轻点反方向键让角色瞬间停稳再开枪，是所有枪法的地基。</p>
+      <p data-en>Shooting while moving is hopeless. Tap the opposite movement key to stop instantly before firing — the foundation of all aim.</p></div>
+    <div class="card"><h3><span class="num">2</span><span data-zh>预瞄头线</span><span data-en>Crosshair placement</span></h3>
+      <p data-zh>准星始终放在敌人可能出现位置的头部高度，把对枪变成"反应测试"而不是"甩枪测试"。</p>
+      <p data-en>Keep your crosshair at head height where enemies appear, turning duels into reaction tests instead of flick tests.</p></div>
+    <div class="card"><h3><span class="num">3</span><span data-zh>报点与沟通</span><span data-en>Callouts</span></h3>
+      <p data-zh>记住地图点位名，用简短报点（位置+人数+血量）。信息是团队游戏里最便宜也最强的"道具"。</p>
+      <p data-en>Learn map callouts and report position + count + HP concisely. Information is the cheapest, strongest utility.</p></div>
+    <div class="card"><h3><span class="num">4</span><span data-zh>全队同步经济</span><span data-en>Buy together</span></h3>
+      <p data-zh>开局按 U 看全队经济，跟着指挥一起起枪或一起环保。三人起两人环保是最差的买法。</p>
+      <p data-en>Check team money each round and buy or eco together. A 3-buy/2-eco split is the worst of both worlds.</p></div>
+    <div class="card"><h3><span class="num">5</span><span data-zh>每图学 3 个道具</span><span data-en>Three lineups per map</span></h3>
+      <p data-zh>不必背几十个道具：每张图记住 3 个关键烟/闪（如 Mirage 窗口烟），实战价值立竿见影。</p>
+      <p data-en>No need for dozens of lineups — three key smokes/flashes per map (like Mirage window smoke) pay off immediately.</p></div>
+    <div class="card"><h3><span class="num">6</span><span data-zh>听声辨位</span><span data-en>Sound discipline</span></h3>
+      <p data-zh>戴耳机、按 Shift 静步。脚步声、换弹声、下包声都是免费情报，Nuke 这类垂直图尤其关键。</p>
+      <p data-en>Use headphones and shift-walk. Footsteps, reloads, and plant sounds are free intel — critical on vertical maps like Nuke.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <p data-zh><b>数据来源：</b>Valve 官方更新、<a href="https://dotesports.com/counter-strike/news/all-cs2-competitive-active-duty-maps" target="_blank">Dot Esports 地图池</a>、<a href="https://skin.land/blog/cs2-weapon-stats/" target="_blank">武器数据</a>、<a href="https://csdb.gg/guides/economy-guide/" target="_blank">CSDB 经济指南</a>（2026 年 8 月核对）。</p>
+    <p data-en><b>Sources:</b> Valve official updates, <a href="https://dotesports.com/counter-strike/news/all-cs2-competitive-active-duty-maps" target="_blank">Dot Esports map pool</a>, <a href="https://skin.land/blog/cs2-weapon-stats/" target="_blank">weapon stats</a>, <a href="https://csdb.gg/guides/economy-guide/" target="_blank">CSDB economy guide</a> (verified Aug 2026).</p>
+    <p data-zh>本站为玩家自制攻略，与 Valve 无关。CS2 及相关素材版权归 Valve 所有。</p>
+    <p data-en>Fan-made guide, not affiliated with Valve. CS2 and related assets are property of Valve.</p>
+  </div>
+</footer>
+
+<div class="overlay" id="mapOverlay" onclick="if(event.target===this)closeMap()">
+  <div class="modal">
+    <button class="close" onclick="closeMap()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+function toggleLang(){
+  const html=document.documentElement;
+  html.classList.toggle('en');
+  html.lang=html.classList.contains('en')?'en':'zh-CN';
+  if(document.getElementById('mapOverlay').classList.contains('open')&&currentMap)renderMap(currentMap);
+}
+
+const MAPS={
+dust2:{name:"Dust2",
+ callouts:[
+  {zh:"<b>中门 (Mid Doors)</b>：CT 狙击手的招牌狙位，T 出生点烟封中门是每回合基本功",en:"<b>Mid Doors</b>: signature CT AWP angle; smoking doors from T spawn is a round-one fundamental"},
+  {zh:"<b>A 长 (Long)</b>：经过蓝门进入 A 大的长通道，对枪距离远，适合步枪和狙",en:"<b>A Long</b>: the long lane through blue doors; long-range duels for rifles and AWPs"},
+  {zh:"<b>A 小/匝道 (Short/Catwalk)</b>：中路上 A 的捷径，配合 A 长形成夹击",en:"<b>A Short/Catwalk</b>: the mid route onto A, pairing with Long for a pincer"},
+  {zh:"<b>B 通 (B Tunnels)</b>：T 方进 B 唯一主通道，容易被火封",en:"<b>B Tunnels</b>: the main T route into B, easily delayed with mollies"}],
+ utility:[
+  {zh:"T 出生点 → 中门烟：封死 CT 狙击视野，保护中路和 A 小",en:"T spawn → Mid Doors smoke: blinds the CT AWP, protects mid and short"},
+  {zh:"A 长蓝门烟 + 反弹闪：安全过警亭，压制 A 长 CT",en:"Long smoke + pop-flash over blue doors: cross safely past pit and car"},
+  {zh:"B 通口窗烟 + 车位烟：B 冲锋标配双烟",en:"B window + car smokes: the standard B-rush pair"}],
+ tSide:[
+  {zh:"默认拆 2-1-2：A 长、中路、B 通各控一路，收集信息后再集合打点",en:"Default 2-1-2: hold Long, mid, and tunnels; gather info before committing"},
+  {zh:"经济局 rush B：双烟一闪直接冲 B，贴脸换枪效率最高",en:"Eco rounds: rush B with two smokes and a flash for close-range trades"},
+  {zh:"下包后退守包点两侧交叉火力，别都挤在箱后",en:"Post-plant: play crossfires on both sides of site, don't stack one box"}],
+ ctSide:[
+  {zh:"标配 2A-1M-2B；中路狙决定上半场节奏",en:"Standard 2A-1M-2B; the mid AWP dictates the first half"},
+  {zh:"B 位守双烟后的听声延迟，火封 B 通拖 rush",en:"On B, molly tunnels to stall rushes and play off sound"},
+  {zh:"A 长第一时间抢蓝门附近身位，丢了就退坑位重架",en:"Contest Long early near blue doors; if lost, fall back to pit/site angles"}]},
+mirage:{name:"Mirage",
+ callouts:[
+  {zh:"<b>中路 (Mid)</b>：连接 A1、B 短的枢纽，窗口 (Window) 是 CT 狙位核心",en:"<b>Mid</b>: the hub linking A palace side and B short; Window is the key CT AWP spot"},
+  {zh:"<b>A 点：拱门 (Ramp)、宫殿 (Palace)、沙发 (Tetris)、三箱 (Triple)</b>",en:"<b>A site</b>: Ramp, Palace, Tetris, Triple box"},
+  {zh:"<b>B 点：公寓 (Apartments)、厨房 (Kitchen)、短箱 (Bench)</b>",en:"<b>B site</b>: Apartments, Kitchen, Bench"}],
+ utility:[
+  {zh:"T 出生点 → 窗口烟：全 CS2 最重要的一颗烟，学会它中路就活了",en:"T spawn → Window smoke: the single most important smoke in CS2; it unlocks mid"},
+  {zh:"A 爆弹三件套：CT 烟 + 短箱烟 + 拱门火，配两颗过点闪",en:"A execute trio: CT smoke + Jungle smoke + ramp molly, plus two entry flashes"},
+  {zh:"B 公寓出窗闪：队友窗下反弹闪，第一个人跳窗接闪进点",en:"B apps pop-flash: teammate flashes from underpass window as the entry jumps in"}],
+ tSide:[
+  {zh:"上半场先做中路控制：窗烟 + 短管火，逼 CT 让出 B 短",en:"Take mid control first: window smoke + short molly force CTs off B short"},
+  {zh:"A 打快攻前先派一人公寓拉枪声，骗 B 位不敢转",en:"Before an A hit, have one player make noise in apps to pin B rotations"},
+  {zh:"残局 1vX 善用点内烟晃点，Mirage 包点箱位多利于周旋",en:"In clutches, use site smokes and box play — Mirage sites favor patient 1vX"}],
+ ctSide:[
+  {zh:"窗口狙 + 短管一人是中路标准配置，别轻易双人下连接",en:"Window AWP + one short player is the standard mid setup; don't over-rotate through connector"},
+  {zh:"A 位默认沙发+三箱互保，听到宫殿脚步提前丢火",en:"A pair holds Tetris + Triple for trades; pre-molly Palace on footsteps"},
+  {zh:"B 位公寓火是保命符，拖到队友从连接转过来",en:"On B, the apps molly buys time for the connector rotate"}]},
+inferno:{name:"Inferno",
+ callouts:[
+  {zh:"<b>香蕉道 (Banana)</b>：通往 B 的弯道，双方每回合必争",en:"<b>Banana</b>: the curved lane to B, contested every single round"},
+  {zh:"<b>中路/二楼 (Mid/Apartments)</b>：T 上 A 的两条主路",en:"<b>Mid/Apartments</b>: the two main T routes toward A"},
+  {zh:"<b>A 点：墓地 (Graveyard)、亭子 (Pit)、平台 (Balcony)</b>",en:"<b>A site</b>: Graveyard, Pit, Balcony"}],
+ utility:[
+  {zh:"香蕉道车烟 + 顶烟：T 拿香蕉道控制权的标配",en:"Banana car + top smokes: standard for taking banana control"},
+  {zh:"CT 香蕉道雷火组合：开局丢火+雷可白拿 100+ 伤害",en:"CT banana molly + HE: free 100+ damage on aggressive T pushes"},
+  {zh:"A 爆弹：墓地烟 + 平台烟 + 亭子火，二楼两闪掩护下点",en:"A execute: Graveyard + Balcony smokes, Pit molly, two flashes from apps"}],
+ tSide:[
+  {zh:"每回合先做香蕉道控制，即使打 A 也要假打 B 牵制",en:"Take banana control every round — even on A hits it pins the B players"},
+  {zh:"Inferno 是道具图：留好打点的钱，缺道具别硬进点",en:"Inferno is a utility map: budget for grenades and never dry-push a site"},
+  {zh:"下包 B 后退回香蕉道打回防，别留在开阔包点",en:"After a B plant, fall back into banana for the retake fight, don't stay exposed"}],
+ ctSide:[
+  {zh:"B 位一人用道具拖时间是常态，练好三角箱与花丛周旋",en:"One CT can hold B with utility; master playing coffins and new box"},
+  {zh:"A 位墓地+亭子交叉守，二楼口听声提前拉枪",en:"Hold A with Graveyard/Pit crossfire; pre-aim apps exit on sound"},
+  {zh:"回防时从花园/拱门分两路夹，同步进点效率翻倍",en:"Retake from arch + library simultaneously — synced entries double your odds"}]},
+nuke:{name:"Nuke",
+ callouts:[
+  {zh:"<b>楼上 A (Upper/A Site)</b>：小黑屋 (Squeaky)、蹦床 (Hut)、暖气 (Rafters)",en:"<b>A site (Upper)</b>: Squeaky, Hut, Rafters"},
+  {zh:"<b>楼下 B (Lower/B Site)</b>：管道 (Vents)、暗道 (Tunnels)、窗户 (Window)",en:"<b>B site (Lower)</b>: Vents, Tunnels, Window"},
+  {zh:"<b>外场 (Outside)</b>：T 方绕后打 B/秘密 (Secret) 的大动脉",en:"<b>Outside</b>: the T artery toward Secret and B"}],
+ utility:[
+  {zh:"外场三连烟：从 T 出生点封锁 CT 视野横穿外场的经典道具组",en:"The outside triple-smoke wall: the classic lineup to cross toward Secret"},
+  {zh:"A 点小黑屋火 + 蹦床闪：进 A 前必做的清角组合",en:"Squeaky molly + Hut flash: mandatory clears before an A hit"},
+  {zh:"CT 外场烟+火拖延，为回防争取 10 秒以上",en:"CT outside smoke + molly stalls buy 10+ seconds for rotates"}],
+ tSide:[
+  {zh:"Nuke T 方最难：耐心控外场和楼顶，逼 CT 分散站位",en:"Nuke is hardest for Ts: patiently take outside and ramp to stretch the CTs"},
+  {zh:"打 A 前先丢楼顶道具骗回防，再快速转火",en:"Fake with utility toward one site before snapping to the real hit"},
+  {zh:"管道偷 B 是永远的杀手锏，但要先确认外场有牵制",en:"The vents sneak into B always works — but only with outside pressure first"}],
+ ctSide:[
+  {zh:"标准 3A-2B 或 2A-1外-2B，外场信息决定站位",en:"Standard 3A-2B or 2A-1out-2B; outside info shapes everything"},
+  {zh:"声音就是生命：楼上脚步、开门声都要即时报点",en:"Sound is life: call every footstep and door instantly"},
+  {zh:"守 B 善用窗户和暗道交叉，别单守死角",en:"On B, use window + tunnels crossfire rather than a single deep angle"}]},
+ancient:{name:"Ancient",
+ callouts:[
+  {zh:"<b>中路 (Mid)</b>：蛋仓 (Donut) 连接 A/B 双点，是全图枢纽",en:"<b>Mid</b>: with Donut it connects both sites — the map's hub"},
+  {zh:"<b>A 点：红房 (Red)、平台 (Temple)、洞口 (Cave)</b>",en:"<b>A site</b>: Red room, Temple, Cave"},
+  {zh:"<b>B 点：坡道 (Ramp)、长廊 (Long)、柱子 (Pillar)</b>",en:"<b>B site</b>: Ramp, Long, Pillar"}],
+ utility:[
+  {zh:"中路双烟（蛋仓口+通道口）：T 拿中权的基础",en:"Double mid smokes (Donut + corridor): the base of T mid control"},
+  {zh:"B 长烟 + 坡道火：B 区执行标配",en:"B long smoke + ramp molly: the standard B execute"},
+  {zh:"CT 开局中路雷火消耗，Ancient 窄道雷伤极高",en:"CT opening mid HE + molly: Ancient's tight lanes make nade damage huge"}],
+ tSide:[
+  {zh:"中路控制价值最高：拿下蛋仓后 A/B 都在威胁范围",en:"Mid control is king: from Donut you threaten both sites at once"},
+  {zh:"通道狭窄，进点前把闪拉满，干进必死",en:"Lanes are narrow — never enter without flashes ahead of you"},
+  {zh:"B 坡道慢推配合中路夹 B 是最稳定的战术",en:"A slow ramp push synced with mid players hitting B is the most reliable strat"}],
+ ctSide:[
+  {zh:"默认 2-1-2，中路一人靠道具消耗拖节奏",en:"Default 2-1-2 with one mid anchor delaying via utility"},
+  {zh:"A 位红房与平台互保，交火后立刻换位",en:"A pair trades between Red and Temple, repositioning after each fight"},
+  {zh:"枪线短，霰弹枪/冲锋枪在环保局回报极高",en:"Short sightlines make shotguns/SMGs excellent on light-buy rounds"}]},
+anubis:{name:"Anubis",
+ callouts:[
+  {zh:"<b>中路 (Mid)</b>:连桥 (Bridge) 和水道 (Water/Canal) 贯穿全图",en:"<b>Mid</b>: Bridge and the water canal thread through the map"},
+  {zh:"<b>A 点：重生 (Palace)、天桥 (Walkway)、暗处 (Dark)</b>",en:"<b>A site</b>: Palace, Walkway, Dark"},
+  {zh:"<b>B 点：长廊 (Long)、连接 (Connector)、街道 (Street)</b>",en:"<b>B site</b>: Long, Connector, Street"}],
+ utility:[
+  {zh:"中桥烟 + 水道闪：过中路的基本组合",en:"Bridge smoke + canal flash: the basic mid-crossing pair"},
+  {zh:"A 爆弹：天桥烟 + 暗处烟 + 重生火",en:"A execute: Walkway + Dark smokes with a Palace molly"},
+  {zh:"CT 水道火：延缓 T 中路渗透的关键道具",en:"CT canal molly: the key stall against mid infiltration"}],
+ tSide:[
+  {zh:"连接通道极多，转点比任何图都快，多打转点战术",en:"With so many connectors, rotates are the fastest in the pool — abuse fakes"},
+  {zh:"水道渗透安静走位可以直插 B 连接背身",en:"A silent canal walk lands you behind the B connector player"},
+  {zh:"下包后利用多通道打时间差回穿",en:"Post-plant, use the many routes for off-angle re-entries"}],
+ ctSide:[
+  {zh:"信息位优先：中路必须常驻一人，否则处处被穿插",en:"Info first: always keep one player mid or you'll be flanked everywhere"},
+  {zh:"回防路线短是 CT 优势，敢于放点快转",en:"Short rotate paths favor CTs — give up map space and rotate fast"},
+  {zh:"守 A 多用暗处非常规身位，Anubis 光影角落多",en:"On A, use Dark's unusual angles — Anubis is full of shadowy corners"}]},
+vertigo:{name:"Vertigo",
+ callouts:[
+  {zh:"<b>A 坡 (A Ramp)</b>：T 上 A 主通道，天梯图最血腥的走廊",en:"<b>A Ramp</b>: the main T route to A and the bloodiest hallway on the map"},
+  {zh:"<b>中路 (Mid)</b>：连接双点，梯子 (Ladder) 可快速转层",en:"<b>Mid</b>: links both sites; the ladder allows level changes"},
+  {zh:"<b>B 点：栏杆 (Railing)、后板 (Back Board)、电梯 (Elevator)</b>",en:"<b>B site</b>: Railing, Back board, Elevator room"}],
+ utility:[
+  {zh:"A 坡双烟：封 CT 增援视野，坡顶反弹闪接冲锋",en:"Double ramp smokes + a pop-flash over the top before the push"},
+  {zh:"B 快攻烟：栏杆烟 + 电梯口闪，7 秒可完成爆弹",en:"B rush set: railing smoke + elevator flash — a 7-second execute"},
+  {zh:"CT 的 A 坡火是每回合刚需，掐好 18 秒重丢时机",en:"The CT ramp molly is mandatory every round; re-throw on the 18s timing"}],
+ tSide:[
+  {zh:"A 坡硬冲成本高，先用道具磨掉 CT 的火和雷再上",en:"Don't brute-force ramp — bait out CT utility first, then commit"},
+  {zh:"B 快攻是 Vertigo 招牌：开局直接双烟冲 B 常能打崩防守",en:"The B rush is Vertigo's signature: an opening double-smoke hit often breaks setups"},
+  {zh:"中路梯子偷转是杀招，但要全队掩护枪声",en:"Ladder sneaks win rounds, but teammates must cover the noise"}],
+ ctSide:[
+  {zh:"A 坡 2 人 + 道具轮换是防守核心，别省火",en:"Two players + rotating utility on ramp is the core hold — never save the molly"},
+  {zh:"B 位站位要防 7 秒快攻，开局先架枪再做动作",en:"On B, set up for the 7-second rush before doing anything else"},
+  {zh:"残局善用边缘视角和掉落声骗位",en:"In clutches, use ledge angles and fake-fall sounds to bait"}]}
+};
+
+let currentMap=null;
+function isEn(){return document.documentElement.classList.contains('en')}
+function renderMap(key){
+  const m=MAPS[key],en=isEn();
+  const li=a=>a.map(x=>'<li>'+(en?x.en:x.zh)+'</li>').join('');
+  document.getElementById('modalContent').innerHTML=
+    '<h3>'+m.name+'</h3><div class="m-sub">'+(en?'Full map guide':'地图详细攻略')+'</div>'
+    +'<div class="m-block"><h4>'+(en?'📍 Key callouts':'📍 关键点位报点')+'</h4><ul>'+li(m.callouts)+'</ul></div>'
+    +'<div class="m-block"><h4>'+(en?'💨 Must-learn utility':'💨 必学道具')+'</h4><ul>'+li(m.utility)+'</ul></div>'
+    +'<div class="m-cols"><div class="m-block side-t"><h4>'+(en?'🔶 T-side play':'🔶 T 方打法')+'</h4><ul>'+li(m.tSide)+'</ul></div>'
+    +'<div class="m-block side-ct"><h4>'+(en?'🔷 CT-side play':'🔷 CT 方打法')+'</h4><ul>'+li(m.ctSide)+'</ul></div></div>';
+}
+function openMap(key){
+  currentMap=key;renderMap(key);
+  document.getElementById('mapOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeMap(){
+  document.getElementById('mapOverlay').classList.remove('open');
+  document.body.style.overflow='';currentMap=null;
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMap()});
+
+function copyCode(el){
+  const code=el.textContent.trim();
+  const done=()=>{const old=el.textContent;el.textContent=isEn()?'✓ Copied!':'✓ 已复制！';el.style.color='var(--green)';setTimeout(()=>{el.textContent=old;el.style.color=''},1200)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(code).then(done)}
+  else{const t=document.createElement('textarea');t.value=code;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);done()}
+}
+</script>
+</body>
+</html>
